@@ -50,6 +50,18 @@ public interface BackwardSort extends QuickSort {
     }
   }
 
+  default void backwardSort(List<long[]> timestamps, int rowCount, int L) {
+    int block_size = L;
+    // System.out.printf("rowCount=%d, block_size=%d\n",rowCount, block_size);
+    int B = rowCount / block_size + 1;
+    sortBlock((B - 1) * block_size, rowCount - 1);
+    for (int i = B - 2; i >= 0; i--) {
+      int lo = i * block_size, hi = lo + block_size - 1;
+      sortBlock(lo, hi);
+      backwardMergeBlocks(lo, hi, rowCount);
+    }
+  }
+
   /**
    * check block-inversions to find the proper block_size, which is a multiple of array_size. For
    * totally ordered, the block_size will equals to array_size For totally reverse ordered, the

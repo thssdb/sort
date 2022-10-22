@@ -41,6 +41,14 @@ public class BackIntTVList extends QuickIntTVList implements BackwardSort {
     sorted = true;
   }
 
+  public void sort(int L) {
+    if (!sorted) {
+      backwardSort(timestamps, rowCount, L);
+      clearTmp();
+    }
+    sorted = true;
+  }
+
   @Override
   public void setFromTmp(int src, int dest) {
     set(
